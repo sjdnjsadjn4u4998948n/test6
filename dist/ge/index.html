@@ -1,0 +1,26 @@
+<!doctype html><html><head>
+<script>
+(function(){
+  try {
+    var preferredHost = "nonwww";
+    var h = location.hostname;
+    var target = null;
+    if (preferredHost === 'www') {
+      if (!/^www\./i.test(h)) { target = "www." + h; }
+    } else if (preferredHost === "nonwww") {
+      if (/^www\./i.test(h)) { target = h.replace(/^www\./i,""); }
+    }
+    if (target) {
+      var newUrl = location.protocol + '//' + target + location.pathname + location.search + location.hash;
+      // update meta-refresh if present for non-JS fallback
+      try {
+        var m = document.querySelector("meta[name=\"kaziki-meta-refresh\"]");
+        if (m) { m.setAttribute("content", "0;url=" + newUrl); }
+      } catch(e) {}
+      // use replace to avoid adding history entry
+      location.replace(newUrl);
+    }
+  } catch(e) {}
+})();
+</script>
+<meta charset="utf-8"><meta http-equiv="refresh" content="0;url=/aaa"><meta name="robots" content="noindex,follow"><title>Redirecting…</title></head><body><p>Redirecting to <a href="/aaa">/aaa</a></p></body></html>
